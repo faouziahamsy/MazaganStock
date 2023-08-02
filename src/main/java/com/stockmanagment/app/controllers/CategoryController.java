@@ -21,19 +21,17 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
-
+    @CrossOrigin
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
     @CrossOrigin
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
