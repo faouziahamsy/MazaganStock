@@ -1,5 +1,6 @@
 package com.stockmanagment.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class Category {
 	private Long id;
 	@Column(name = "nom")
 	private String nom;
+	@JsonIgnore
 	@OneToMany(mappedBy = "category")
 	private List<Equipement> equipements;
 }

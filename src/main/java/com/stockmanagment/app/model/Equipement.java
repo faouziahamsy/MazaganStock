@@ -20,11 +20,11 @@ public class Equipement {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
-	@Column(name ="reference")
-	private String reference ;
+	@Column(name ="quantity")
+	private int quantity ;
 	@Column(name = "matricule")
 	private String matricule;
-	@Column(name="photo")
+	@Lob @Column(name="photo",columnDefinition = "MEDIUMBLOB")
 	private String photoEquipement;
 	@ManyToOne
 	@JoinColumn(name="id_category")
@@ -40,4 +40,5 @@ public class Equipement {
 	private Instant date_entree;
 	private Instant date_sortie;
 }
+
 

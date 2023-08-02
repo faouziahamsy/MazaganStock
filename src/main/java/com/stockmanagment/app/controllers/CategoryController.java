@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -29,8 +29,9 @@ public class CategoryController {
         return categoryService.getCategoryById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Category not found with id: " + id));
     }
-
+    @CrossOrigin
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Category createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }

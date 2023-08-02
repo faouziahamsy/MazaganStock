@@ -1,5 +1,4 @@
 package com.stockmanagment.app.repository;
-
 import com.stockmanagment.app.model.Equipement;
 import org.springframework.data.jpa.repository.JpaRepository;
 
