@@ -1,6 +1,7 @@
 package com.stockmanagment.app.controllers;
 
 import com.stockmanagment.app.dto.CategoryDto;
+import com.stockmanagment.app.model.Category;
 import com.stockmanagment.app.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryDto> getAllCategories() {
-        List<CategoryDto> categories = categoryService.getAllCategories().stream()
-                .map(CategoryDto::fromEntity)
-                .collect(Collectors.toList());
+    public List<Category> getAllCategories() {
+        List<Category> categories = categoryService.getAllCategories();
         return categories;
     }
 
