@@ -1,5 +1,5 @@
 package com.stockmanagment.app.service;
-
+import com.stockmanagment.app.dto.DepartementDto;
 import com.stockmanagment.app.model.Departement;
 import com.stockmanagment.app.repository.DepartementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartementService {
@@ -18,36 +19,33 @@ public class DepartementService {
         this.departementRepository = departementRepository;
     }
 
-    public List<Departement> getAllDepartements() {
-        return departementRepository.findAll();
+    public List<DepartementDto> getAllDepartements() {
+        List<Departement> departements = departementRepository.findAll();
+        return departements.stream()
+                .map(DepartementDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Departement> getDepartementById(Long id) {
-        return departementRepository.findById(id);
+    public Optional<DepartementDto> getDepartementById(Long id) {
+        return departementRepository.findById(id)
+                .map(DepartementDto::fromEntity);
     }
 
-    public Departement createDepartement(Departement departement) {
-        return departementRepository.save(departement);
+    public DepartementDto createDepartement(DepartementDto departement) {
+        Departement entity = DepartementDto.toEntity(departement);
+        Departement savedDepartement = departementRepository.save(entity);
+        return DepartementDto.fromEntity(savedDepartement);
     }
 
-    public Optional<Departement> updateDepartement(Long id, Departement departementDetails) {
-        Optional<Departement> existingDepartement = departementRepository.findById(id);
-        if (existingDepartement.isPresent()) {
-            Departement departement = existingDepartement.get();
-            departement.setNom(departementDetails.getNom());
-            // Set other attributes if needed
-            return Optional.of(departementRepository.save(departement));
-        } else {
-            return Optional.empty();
-        }
+    public Optional<DepartementDto> updateDepartement(Long id, DepartementDto departementDto) {
+        return departementRepository.findById(id).map(existingDepartement -> {
+            Departement updatedDepartement = DepartementDto.toEntity(departementDto);
+            updatedDepartement.setId(existingDepartement.getId());
+            return DepartementDto.fromEntity(departementRepository.save(updatedDepartement));
+        });
     }
 
-    public boolean deleteDepartement(Long id) {
-        if (departementRepository.existsById(id)) {
-            departementRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteDepartement(Long id) {
+        departementRepository.deleteById(id);
     }
 }

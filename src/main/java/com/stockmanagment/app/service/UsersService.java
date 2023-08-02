@@ -1,15 +1,20 @@
 package com.stockmanagment.app.service;
 
+import com.stockmanagment.app.dto.UsersDto;
 import com.stockmanagment.app.model.Users;
 import com.stockmanagment.app.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersService {
+
     private final UsersRepository usersRepository;
 
     @Autowired
@@ -17,39 +22,38 @@ public class UsersService {
         this.usersRepository = usersRepository;
     }
 
-    public List<Users> getAllUsers() {
-        return usersRepository.findAll();
+    public List<UsersDto> getAllUsers() {
+        List<Users> users = usersRepository.findAll();
+        return users.stream().map(UsersDto::fromEntity).collect(Collectors.toList());
     }
 
-    public Optional<Users> getUserById(Long id) {
-        return usersRepository.findById(id);
+    public UsersDto getUsersById(Long id) {
+        Users users = usersRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id));
+        return UsersDto.fromEntity(users);
     }
 
-    public Users createUser(Users user) {
-        return usersRepository.save(user);
+    public UsersDto createUser(UsersDto usersDto) {
+        Users users = UsersDto.toEntity(usersDto);
+        users = usersRepository.save(users);
+        return UsersDto.fromEntity(users);
     }
 
-    public Optional<Users> updateUser(Long id, Users userDetails) {
-        Optional<Users> existingUser = usersRepository.findById(id);
-        if (existingUser.isPresent()) {
-            Users user = existingUser.get();
-            user.setNom(userDetails.getNom());
-            user.setEmail(userDetails.getEmail());
-           // user.setDepartment(userDetails.getDepartment());
-           // user.setRoles(userDetails.getRoles());
-            // Set other attributes if needed
-            return Optional.of(usersRepository.save(user));
-        } else {
-            return Optional.empty();
-        }
+    public UsersDto updateUser(Long id, UsersDto usersDto) {
+        Users existingUser = usersRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id));
+
+        existingUser.setNom(usersDto.getNom());
+        existingUser.setPrenom(usersDto.getPrenom());
+        existingUser.setMatricule(usersDto.getMatricule());
+        existingUser.setEmail(usersDto.getEmail());
+        existingUser.setPassword(usersDto.getPassword());
+
+        usersRepository.save(existingUser);
+        return UsersDto.fromEntity(existingUser);
     }
 
-    public boolean deleteUser(Long id) {
-        if (usersRepository.existsById(id)) {
-            usersRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteUser(Long id) {
+        usersRepository.deleteById(id);
     }
 }

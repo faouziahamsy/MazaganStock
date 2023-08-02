@@ -1,5 +1,6 @@
 package com.stockmanagment.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,10 @@ public class Departement {
 	private Long id;
 	@Column(name = "nom")
 	private String nom;
+	@JsonIgnore
 	@OneToMany(mappedBy = "departement")
 	private List<Room> rooms;
+	@JsonIgnore
 	@OneToMany(mappedBy = "departement")
 	private List<Users> users;
 }
