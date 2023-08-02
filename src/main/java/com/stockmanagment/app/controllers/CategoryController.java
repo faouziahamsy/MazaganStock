@@ -1,6 +1,5 @@
 package com.stockmanagment.app.controllers;
 
-import com.stockmanagment.app.dto.CategoryDto;
 import com.stockmanagment.app.model.Category;
 import com.stockmanagment.app.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
+
     private final CategoryService categoryService;
 
     @Autowired
@@ -24,30 +24,28 @@ public class CategoryController {
 
     @GetMapping
     public List<Category> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
-        return categories;
+        return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public CategoryDto getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id)
-                .map(CategoryDto::fromEntity)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found with id: " + id));
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @CrossOrigin
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
-        return CategoryDto.fromEntity(categoryService.createCategory(CategoryDto.toEntity(categoryDto)));
+    public Category createCategory(@RequestBody Category category) {
+        return categoryService.createCategory(category);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
-        CategoryDto updatedCategoryDto = categoryService.updateCategory(id, CategoryDto.toEntity(categoryDto))
-                .map(CategoryDto::fromEntity)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found with id: " + id));
-        return ResponseEntity.ok(updatedCategoryDto);
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+        return categoryService.updateCategory(id, category)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

@@ -30,12 +30,10 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Optional<Category> updateCategory(Long id, Category categoryDetails) {
+    public Optional<Category> updateCategory(Long id, Category category) {
         Optional<Category> existingCategory = categoryRepository.findById(id);
         if (existingCategory.isPresent()) {
-            Category category = existingCategory.get();
-            category.setNom(categoryDetails.getNom());
-            // Set other attributes if needed
+            category.setId(id); // Set the ID in case it's not set already
             return Optional.of(categoryRepository.save(category));
         } else {
             return Optional.empty();
@@ -43,7 +41,8 @@ public class CategoryService {
     }
 
     public boolean deleteCategory(Long id) {
-        if (categoryRepository.existsById(id)) {
+        Optional<Category> existingCategory = categoryRepository.findById(id);
+        if (existingCategory.isPresent()) {
             categoryRepository.deleteById(id);
             return true;
         } else {
