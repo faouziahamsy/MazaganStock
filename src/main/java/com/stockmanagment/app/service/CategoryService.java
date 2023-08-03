@@ -33,7 +33,7 @@ public class CategoryService {
     public Optional<Category> updateCategory(Long id, Category category) {
         Optional<Category> existingCategory = categoryRepository.findById(id);
         if (existingCategory.isPresent()) {
-            category.setId(id); // Set the ID in case it's not set already
+            category.setId(id);// Set the ID in case it's not set already
             return Optional.of(categoryRepository.save(category));
         } else {
             return Optional.empty();

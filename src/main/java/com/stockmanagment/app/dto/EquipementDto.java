@@ -22,12 +22,12 @@ public class EquipementDto {
     private int quantity;
     private String matricule;
     private String photoEquipement;
-    private CategoryDto category;
+    private Long categoryId;
     private EtatEquipement etat;
     private Instant date_entree;
     private Instant date_sortie;
 
-    public static EquipementDto fromEntity(Equipement equipement) {
+   /* public static EquipementDto fromEntity(Equipement equipement) {
         if (equipement == null) {
             return null;
         }
@@ -36,7 +36,7 @@ public class EquipementDto {
                 .quantity(equipement.getQuantity())
                 .matricule(equipement.getMatricule())
                 .photoEquipement(equipement.getPhotoEquipement())
-                .category(CategoryDto.fromEntity(equipement.getCategory()))
+                .categoryId(equipement.getCategory().getId())
                 .etat(equipement.getEtat())
                 .date_entree(equipement.getDate_entree())
                 .date_sortie(equipement.getDate_sortie())
@@ -47,9 +47,9 @@ public class EquipementDto {
         return equipements.stream()
                 .map(EquipementDto::fromEntity)
                 .collect(Collectors.toList());
-    }
+    }*/
 
-    public static Equipement toEntity(EquipementDto equipementDto) {
+  /*  public static Equipement toEntity(EquipementDto equipementDto) {
         if (equipementDto == null) {
             return null;
         }
@@ -63,11 +63,11 @@ public class EquipementDto {
         equipement.setDate_entree(equipementDto.getDate_entree());
         equipement.setDate_sortie(equipementDto.getDate_sortie());
         return equipement;
-    }
+    }*/
 
-    public static List<Equipement> toEntities(List<EquipementDto> equipementDtos) {
+  /*  public static List<Equipement> toEntities(List<EquipementDto> equipementDtos) {
         return equipementDtos.stream()
                 .map(EquipementDto::toEntity)
                 .collect(Collectors.toList());
-    }
+    }*/
 }

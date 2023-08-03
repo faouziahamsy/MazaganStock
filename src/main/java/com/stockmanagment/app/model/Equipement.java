@@ -24,8 +24,8 @@ public class Equipement {
 	private int quantity ;
 	@Column(name = "matricule")
 	private String matricule;
-	@Lob @Column(name="photo",columnDefinition = "MEDIUMBLOB")
-	private String photoEquipement;
+	//@Lob @Column(name="photo",columnDefinition = "MEDIUMBLOB")
+	//private String photoEquipement;
 	@ManyToOne
 	@JoinColumn(name="id_category")
 	private Category category ;

@@ -1,5 +1,7 @@
 package com.stockmanagment.app.controllers;
 
+import com.stockmanagment.app.dto.CategoryRequestDto;
+import com.stockmanagment.app.dto.CategoryResponseDto;
 import com.stockmanagment.app.model.Category;
 import com.stockmanagment.app.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,6 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     private final CategoryService categoryService;
-
     @Autowired
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -33,10 +34,22 @@ public class CategoryController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @CrossOrigin
-    @PostMapping
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Category createCategory(@RequestBody Category category) {
-        return categoryService.createCategory(category);
+    public CategoryResponseDto createCategory(@RequestBody CategoryRequestDto category) {
+        //recup data for request (client)
+        String nom= category.getNom();
+        //creer objet category
+        Category cat = new Category();
+        //recup cat (name)
+        cat.setNom(nom);
+        //creer objet dto
+        CategoryResponseDto res = new CategoryResponseDto();
+        //name to objet dto
+        res.setNom(categoryService.createCategory(cat).getNom());
+        System.out.println("------------------------>"+category);
+        return res;
+
     }
 
     @PutMapping("/{id}")
