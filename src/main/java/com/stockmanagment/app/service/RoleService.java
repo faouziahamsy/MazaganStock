@@ -1,9 +1,12 @@
 package com.stockmanagment.app.service;
 
 import com.stockmanagment.app.dto.RoleDto;
+import com.stockmanagment.app.dto.RoleRequestDto;
+import com.stockmanagment.app.dto.RoleResponseDto;
 import com.stockmanagment.app.model.Role;
 import com.stockmanagment.app.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,41 +18,51 @@ import java.util.stream.Collectors;
 @Service
 public class RoleService {
 
-    private final RoleRepository roleRepository;
-
     @Autowired
-    public RoleService(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    private RoleRepository roleRepository;
+
+    public RoleResponseDto createRole(RoleRequestDto requestDto) {
+        Role role = Role.builder()
+                .nom(requestDto.getNom())
+                .build();
+
+        Role savedRole = roleRepository.save(role);
+
+        return convertToResponseDto(savedRole);
     }
 
-    public List<RoleDto> getAllRoles() {
-        List<Role> roles = roleRepository.findAll();
-        return roles.stream().map(RoleDto::fromEntity).collect(Collectors.toList());
-    }
-
-    public RoleDto getRoleById(Long id) {
+    public RoleResponseDto getRoleById(Long id) throws ChangeSetPersister.NotFoundException {
         Role role = roleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found with id: " + id));
-        return RoleDto.fromEntity(role);
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+
+        return convertToResponseDto(role);
     }
 
-    public RoleDto createRole(RoleDto roleDto) {
-        Role role = RoleDto.toEntity(roleDto);
-        role = roleRepository.save(role);
-        return RoleDto.fromEntity(role);
+    public List<RoleResponseDto> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return roles.stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
     }
 
-    public RoleDto updateRole(Long id, RoleDto roleDto) {
-        Role existingRole = roleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found with id: " + id));
+    public RoleResponseDto updateRole(Long id, RoleRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
 
-        existingRole.setName(roleDto.getName());
+        role.setNom(requestDto.getNom());
+        Role updatedRole = roleRepository.save(role);
 
-        roleRepository.save(existingRole);
-        return RoleDto.fromEntity(existingRole);
+        return convertToResponseDto(updatedRole);
     }
 
-    public void deleteRole(Long id) {
-        roleRepository.deleteById(id);
+    public void deleteRole(Long id) throws ChangeSetPersister.NotFoundException {
+        Role role = roleRepository.findById(id)
+                .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+
+        roleRepository.delete(role);
+    }
+
+    private RoleResponseDto convertToResponseDto(Role role) {
+        return new RoleResponseDto(role.getId(), role.getNom());
     }
 }

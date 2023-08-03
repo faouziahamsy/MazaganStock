@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class RoleDto {
 
     private Long id;
-    private String name;
+    private String nom;
 
     public static RoleDto fromEntity(Role role) {
         if (role == null) {
@@ -21,7 +21,7 @@ public class RoleDto {
         }
         return RoleDto.builder()
                 .id(role.getId())
-                .name(role.getName())
+                .nom(role.getNom())
                 .build();
     }
 
@@ -31,7 +31,7 @@ public class RoleDto {
         }
         Role role = new Role();
         role.setId(roleDto.getId());
-        role.setName(roleDto.getName());
+        role.setNom(roleDto.getNom());
         return role;
     }
 }

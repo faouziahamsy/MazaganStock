@@ -1,9 +1,13 @@
 package com.stockmanagment.app.controllers;
 
 import com.stockmanagment.app.dto.RoleDto;
+import com.stockmanagment.app.dto.RoleRequestDto;
+import com.stockmanagment.app.dto.RoleResponseDto;
 import com.stockmanagment.app.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -12,36 +16,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
-    private final RoleService roleService;
 
     @Autowired
-    public RoleController(RoleService roleService) {
-        this.roleService = roleService;
-    }
+    private RoleService roleService;
 
-    @GetMapping
-    public List<RoleDto> getAllRoles() {
-        return roleService.getAllRoles();
+    @PostMapping
+    public ResponseEntity<RoleResponseDto> createRole(@RequestBody RoleRequestDto requestDto) {
+        RoleResponseDto responseDto = roleService.createRole(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @GetMapping("/{id}")
-    public RoleDto getRoleById(@PathVariable Long id) {
-        return roleService.getRoleById(id);
+    public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
+        RoleResponseDto responseDto = roleService.getRoleById(id);
+        return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public RoleDto createRole(@RequestBody RoleDto roleDto) {
-        return roleService.createRole(roleDto);
+    @GetMapping
+    public ResponseEntity<List<RoleResponseDto>> getAllRoles() {
+        List<RoleResponseDto> responseDtoList = roleService.getAllRoles();
+        return ResponseEntity.ok(responseDtoList);
     }
 
     @PutMapping("/{id}")
-    public RoleDto updateRole(@PathVariable Long id, @RequestBody RoleDto roleDto) {
-        return roleService.updateRole(id, roleDto);
+    public ResponseEntity<RoleResponseDto> updateRole(@PathVariable Long id, @RequestBody RoleRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
+        RoleResponseDto responseDto = roleService.updateRole(id, requestDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRole(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRole(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         roleService.deleteRole(id);
+        return ResponseEntity.noContent().build();
     }
 }

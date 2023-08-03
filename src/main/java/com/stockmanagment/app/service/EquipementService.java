@@ -48,6 +48,10 @@ public class EquipementService {
         equipement.setQuantity(requestDTO.getQuantity());
         equipement.setMatricule(requestDTO.getMatricule());
         equipement.setEtat(requestDTO.getEtat());
+        // Fetch the Room entity using salleId from the repository
+        Room salle = roomRepository.findById(requestDTO.getSalleId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Room Id"));
+        equipement.setSalle(salle);
 
         // Fetch the Category entity using categoryId from the repository
         Category category = categoryRepository.findById(requestDTO.getCategoryId())
@@ -66,10 +70,6 @@ public class EquipementService {
         responseDTO.setQuantity(equipement.getQuantity());
         responseDTO.setMatricule(equipement.getMatricule());
         responseDTO.setCategoryId(equipement.getCategory().getId());
-        // Assuming articleIds is a list of Long IDs from the List<Article> articles
-        responseDTO.setArticleIds(equipement.getArticles().stream()
-                .map(Article::getId)
-                .collect(Collectors.toList()));
         responseDTO.setSalleId(equipement.getSalle().getId());
         responseDTO.setEtat(equipement.getEtat());
         responseDTO.setDate_entree(equipement.getDate_entree());
@@ -84,9 +84,7 @@ public class EquipementService {
 
     public List<EquipementResponseDto> findAllEquipements() {
         List<Equipement> equipements = equipementRepository.findAll();
-        return equipements.stream()
-                .map(this::convertToResponseDTO)
-                .collect(Collectors.toList());
+        return equipements.stream().map(this::convertToResponseDTO).collect(Collectors.toList());
     }
 
     public EquipementResponseDto updateEquipement(Long id, EquipementRequestDto requestDTO) throws ChangeSetPersister.NotFoundException {

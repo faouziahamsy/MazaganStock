@@ -1,5 +1,7 @@
 package com.stockmanagment.app.service;
-import com.stockmanagment.app.dto.DepartementDto;
+
+import com.stockmanagment.app.dto.DepartementRequestDto;
+import com.stockmanagment.app.dto.DepartementResponseDto;
 import com.stockmanagment.app.model.Departement;
 import com.stockmanagment.app.repository.DepartementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,40 +14,48 @@ import java.util.stream.Collectors;
 @Service
 public class DepartementService {
 
-    private final DepartementRepository departementRepository;
-
     @Autowired
-    public DepartementService(DepartementRepository departementRepository) {
-        this.departementRepository = departementRepository;
+    private DepartementRepository departementRepository;
+
+    public DepartementResponseDto createDepartement(DepartementRequestDto requestDto) {
+        Departement departement = new Departement();
+        departement.setNom(requestDto.getNom());
+        Departement savedDepartement = departementRepository.save(departement);
+        return convertToResponseDto(savedDepartement);
     }
 
-    public List<DepartementDto> getAllDepartements() {
-        List<Departement> departements = departementRepository.findAll();
-        return departements.stream()
-                .map(DepartementDto::fromEntity)
-                .collect(Collectors.toList());
-    }
+    public DepartementResponseDto updateDepartement(Long id, DepartementRequestDto requestDto) {
+        Departement departement = departementRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Departement Id"));
 
-    public Optional<DepartementDto> getDepartementById(Long id) {
-        return departementRepository.findById(id)
-                .map(DepartementDto::fromEntity);
-    }
-
-    public DepartementDto createDepartement(DepartementDto departement) {
-        Departement entity = DepartementDto.toEntity(departement);
-        Departement savedDepartement = departementRepository.save(entity);
-        return DepartementDto.fromEntity(savedDepartement);
-    }
-
-    public Optional<DepartementDto> updateDepartement(Long id, DepartementDto departementDto) {
-        return departementRepository.findById(id).map(existingDepartement -> {
-            Departement updatedDepartement = DepartementDto.toEntity(departementDto);
-            updatedDepartement.setId(existingDepartement.getId());
-            return DepartementDto.fromEntity(departementRepository.save(updatedDepartement));
-        });
+        departement.setNom(requestDto.getNom());
+        Departement updatedDepartement = departementRepository.save(departement);
+        return convertToResponseDto(updatedDepartement);
     }
 
     public void deleteDepartement(Long id) {
         departementRepository.deleteById(id);
+    }
+
+    public DepartementResponseDto getDepartementById(Long id) {
+        Departement departement = departementRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Departement Id"));
+
+        return convertToResponseDto(departement);
+    }
+
+    public List<DepartementResponseDto> getAllDepartements() {
+        List<Departement> departements = departementRepository.findAll();
+        return departements.stream()
+                .map(this::convertToResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private DepartementResponseDto convertToResponseDto(Departement departement) {
+        DepartementResponseDto responseDto = new DepartementResponseDto();
+        responseDto.setId(departement.getId());
+        responseDto.setNom(departement.getNom());
+        // You can include any other fields you want to return in the response.
+        return responseDto;
     }
 }

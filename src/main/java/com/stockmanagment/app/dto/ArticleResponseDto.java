@@ -1,26 +1,22 @@
 package com.stockmanagment.app.dto;
-import com.stockmanagment.app.model.EtatEquipement;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.Instant;
 import java.util.List;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 
-public class EquipementResponseDto {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ArticleResponseDto {
     private Long id;
-    private int quantity;
+    private String reference;
     private String matricule;
-    private Long categoryId;
-   // private List<Long> articleIds;
-    private Long salleId;
-    private EtatEquipement etat;
     private Instant date_entree;
     private Instant date_sortie;
+    private List<Long> equipementIds;
 }

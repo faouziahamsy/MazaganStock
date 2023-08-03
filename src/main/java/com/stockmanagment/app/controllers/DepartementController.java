@@ -1,49 +1,50 @@
 package com.stockmanagment.app.controllers;
-import com.stockmanagment.app.dto.DepartementDto;
+
+import com.stockmanagment.app.dto.DepartementRequestDto;
+import com.stockmanagment.app.dto.DepartementResponseDto;
 import com.stockmanagment.app.service.DepartementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/departements")
 public class DepartementController {
-    private final DepartementService departementService;
 
     @Autowired
-    public DepartementController(DepartementService departementService) {
-        this.departementService = departementService;
-    }
-
-    @GetMapping
-    public List<DepartementDto> getAllDepartements() {
-        return departementService.getAllDepartements();
-    }
-
-    @GetMapping("/{id}")
-    public DepartementDto getDepartementById(@PathVariable Long id) {
-        return departementService.getDepartementById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Departement not found with id: " + id));
-    }
+    private DepartementService departementService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public DepartementDto createDepartement(@RequestBody DepartementDto departement) {
-        return departementService.createDepartement(departement);
+    public ResponseEntity<DepartementResponseDto> createDepartement(@RequestBody DepartementRequestDto requestDto) {
+        DepartementResponseDto responseDto = departementService.createDepartement(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PutMapping("/{id}")
-    public DepartementDto updateDepartement(@PathVariable Long id, @RequestBody DepartementDto departement) {
-        return departementService.updateDepartement(id, departement)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Departement not found with id: " + id));
+    public ResponseEntity<DepartementResponseDto> updateDepartement(
+            @PathVariable Long id, @RequestBody DepartementRequestDto requestDto) {
+        DepartementResponseDto responseDto = departementService.updateDepartement(id, requestDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDepartement(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDepartement(@PathVariable Long id) {
         departementService.deleteDepartement(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DepartementResponseDto> getDepartementById(@PathVariable Long id) {
+        DepartementResponseDto responseDto = departementService.getDepartementById(id);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DepartementResponseDto>> getAllDepartements() {
+        List<DepartementResponseDto> responseDtoList = departementService.getAllDepartements();
+        return ResponseEntity.ok(responseDtoList);
     }
 }
-

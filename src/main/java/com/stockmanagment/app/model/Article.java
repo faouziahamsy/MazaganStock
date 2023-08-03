@@ -20,12 +20,8 @@ public class Article {
 	private Long id;
 	@Column(name ="reference")
 	private String reference ;
-	@Column(name="codeBarre")
-	private String codeBarre;
 	@Column(name = "matricule")
 	private String matricule;
-	@Column(name="photo")
-	private String photoArticle;
 	private Instant date_entree;
 	private Instant date_sortie;
 
