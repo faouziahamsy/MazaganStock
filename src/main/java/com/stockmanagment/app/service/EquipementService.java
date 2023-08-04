@@ -2,7 +2,6 @@ package com.stockmanagment.app.service;
 
 import com.stockmanagment.app.dto.EquipementRequestDto;
 import com.stockmanagment.app.dto.EquipementResponseDto;
-import com.stockmanagment.app.model.Article;
 import com.stockmanagment.app.model.Category;
 import com.stockmanagment.app.model.Equipement;
 import com.stockmanagment.app.model.Room;
@@ -31,7 +30,7 @@ public class EquipementService {
 
     // Constructor and other dependencies can be added here
 
-    public EquipementResponseDto createEquipement(EquipementRequestDto requestDTO) {
+    public EquipementResponseDto createEquipement(EquipementRequestDto  requestDTO) {
         // Convert the requestDTO to the entity and perform business logic
         Equipement equipement = convertToEntity(requestDTO);
         equipement.setDate_entree(Instant.now()); // Set the entry date
@@ -49,9 +48,9 @@ public class EquipementService {
         equipement.setMatricule(requestDTO.getMatricule());
         equipement.setEtat(requestDTO.getEtat());
         // Fetch the Room entity using salleId from the repository
-        Room salle = roomRepository.findById(requestDTO.getSalleId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Room Id"));
-        equipement.setSalle(salle);
+       // Room salle = roomRepository.findById(requestDTO.getSalleId())
+         //       .orElseThrow(() -> new IllegalArgumentException("Invalid Room Id"));
+        //equipement.setSalle(salle);
 
         // Fetch the Category entity using categoryId from the repository
         Category category = categoryRepository.findById(requestDTO.getCategoryId())
@@ -70,7 +69,7 @@ public class EquipementService {
         responseDTO.setQuantity(equipement.getQuantity());
         responseDTO.setMatricule(equipement.getMatricule());
         responseDTO.setCategoryId(equipement.getCategory().getId());
-        responseDTO.setSalleId(equipement.getSalle().getId());
+        responseDTO.setSalleId(1L);
         responseDTO.setEtat(equipement.getEtat());
         responseDTO.setDate_entree(equipement.getDate_entree());
         responseDTO.setDate_sortie(equipement.getDate_sortie());
@@ -95,7 +94,7 @@ public class EquipementService {
         existingEquipement.setQuantity(requestDTO.getQuantity());
         existingEquipement.setMatricule(requestDTO.getMatricule());
         existingEquipement.setEtat(requestDTO.getEtat());
-
+        existingEquipement.setDate_sortie(requestDTO.getDate_sortie());
         // Fetch the Category entity using categoryId from the repository
         Category category = categoryRepository.findById(requestDTO.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Category Id"));

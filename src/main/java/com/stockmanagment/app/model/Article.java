@@ -18,8 +18,10 @@ public class Article {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
-	@Column(name ="reference")
-	private String reference ;
+	@Enumerated(EnumType.STRING) // Indique à JPA d'utiliser le nom de l'énuméré dans la base de données
+	private EtatEquipement etat;
+	@Column(name ="quantity")
+	private Long quantity ;
 	@Column(name = "matricule")
 	private String matricule;
 	private Instant date_entree;

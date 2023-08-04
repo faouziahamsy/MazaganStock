@@ -1,5 +1,6 @@
 package com.stockmanagment.app.dto;
 
+import com.stockmanagment.app.model.EtatEquipement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,8 @@ import java.util.List;
 @Builder
 public class ArticleResponseDto {
     private Long id;
-    private String reference;
+    private EtatEquipement etat;
+    private Long quantity;
     private String matricule;
     private Instant date_entree;
     private Instant date_sortie;

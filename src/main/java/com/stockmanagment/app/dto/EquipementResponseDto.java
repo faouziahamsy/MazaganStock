@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EquipementResponseDto {
     private Long id;
-    private int quantity;
+    private Long quantity;
     private String matricule;
     private Long categoryId;
    // private List<Long> articleIds;

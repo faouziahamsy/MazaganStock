@@ -2,18 +2,15 @@ package com.stockmanagment.app.controllers;
 
 import com.stockmanagment.app.dto.ArticleRequestDto;
 import com.stockmanagment.app.dto.ArticleResponseDto;
-import com.stockmanagment.app.model.Article;
 import com.stockmanagment.app.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/articles")
 public class ArticleController {

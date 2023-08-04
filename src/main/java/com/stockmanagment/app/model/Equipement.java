@@ -21,7 +21,7 @@ public class Equipement {
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 	@Column(name ="quantity")
-	private int quantity ;
+	private Long quantity ;
 	@Column(name = "matricule")
 	private String matricule;
 	//@Lob @Column(name="photo",columnDefinition = "MEDIUMBLOB")
