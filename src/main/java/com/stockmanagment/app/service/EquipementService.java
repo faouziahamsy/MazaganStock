@@ -94,16 +94,17 @@ public class EquipementService {
         existingEquipement.setQuantity(requestDTO.getQuantity());
         existingEquipement.setMatricule(requestDTO.getMatricule());
         existingEquipement.setEtat(requestDTO.getEtat());
-        existingEquipement.setDate_sortie(requestDTO.getDate_sortie());
+        existingEquipement.setDate_sortie(Instant.now());
+      //  existingEquipement.setDate_sortie(requestDTO.getDate_sortie());
         // Fetch the Category entity using categoryId from the repository
         Category category = categoryRepository.findById(requestDTO.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Category Id"));
         existingEquipement.setCategory(category);
 
         // Fetch the Room entity using salleId from the repository
-        Room salle = roomRepository.findById(requestDTO.getSalleId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Room Id"));
-        existingEquipement.setSalle(salle);
+       // Room salle = roomRepository.findById(requestDTO.getSalleId())
+         //       .orElseThrow(() -> new IllegalArgumentException("Invalid Room Id"));
+      //  existingEquipement.setSalle(salle);
 
         // Save the updated equipement entity in the repository
         Equipement updatedEquipement = equipementRepository.save(existingEquipement);
@@ -118,4 +119,5 @@ public class EquipementService {
         equipementRepository.delete(equipement);
     }
     // Add other service methods as needed
+
 }

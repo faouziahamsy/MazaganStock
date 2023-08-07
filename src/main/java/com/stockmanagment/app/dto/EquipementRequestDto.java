@@ -15,11 +15,10 @@ import java.time.Instant;
 @Builder
 public class EquipementRequestDto {
 
-    private Long id;
     private Long quantity;
     private String matricule;
     private Long categoryId;
     private Long salleId;
-    private Instant date_sortie;
+
     private EtatEquipement etat;
 }

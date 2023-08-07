@@ -73,10 +73,10 @@ public class UsersService {
     private Users convertToEntity(UsersRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Users users = new Users();
 
-        users.setNom(requestDto.getNom());
-        users.setPrenom(requestDto.getPrenom());
+       // users.setNom(requestDto.getNom());
+     //   users.setPrenom(requestDto.getPrenom());
         users.setMatricule(requestDto.getMatricule());
-        users.setEmail(requestDto.getEmail());
+
         users.setPassword(requestDto.getPassword());
 
         Departement departement = departementRepository.findById(requestDto.getDepartementId()).orElse(null);

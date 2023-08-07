@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 
         private String matricule;
         private String password;
+        private Long departementId;
+        private Long RoleId;
 
     }
 
