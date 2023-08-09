@@ -118,6 +118,9 @@ public class EquipementService {
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         equipementRepository.delete(equipement);
     }
+    public long getTotalEquipments() {
+        return equipementRepository.count();
+    }
     // Add other service methods as needed
 
 }

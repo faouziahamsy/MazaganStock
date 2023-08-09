@@ -1,5 +1,4 @@
 package com.stockmanagment.app.controllers;
-
 import com.stockmanagment.app.dto.ArticleRequestDto;
 import com.stockmanagment.app.dto.ArticleResponseDto;
 import com.stockmanagment.app.service.ArticleService;
@@ -8,7 +7,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 @CrossOrigin
 @RestController
@@ -22,13 +20,11 @@ public class ArticleController {
         ArticleResponseDto responseDto = articleService.createArticle(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> getArticleById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         ArticleResponseDto responseDto = articleService.findById(id);
         return ResponseEntity.ok(responseDto);
     }
-
     @GetMapping
     public ResponseEntity<List<ArticleResponseDto>> getAllArticles() {
         List<ArticleResponseDto> responseDtoList = articleService.findAllArticles();

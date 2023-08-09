@@ -41,33 +41,27 @@ public class ArticleService {
     public ArticleResponseDto updateArticle(Long id, ArticleRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Article existingArticle = articleRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
-
         existingArticle.setQuantity(requestDto.getQuantity());
         existingArticle.setMatricule(requestDto.getMatricule());
-      existingArticle.setDate_sortie(requestDto.getDate_sortie());
-      existingArticle.setEtat(requestDto.getEtat());
+        existingArticle.setDate_sortie(Instant.now());
+        existingArticle.setEtat(requestDto.getEtat());
 
         Article updatedArticle = articleRepository.save(existingArticle);
         return convertToResponseDto(updatedArticle);
     }
-
     public void deleteArticle(Long id) throws ChangeSetPersister.NotFoundException {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
         articleRepository.delete(article);
     }
-
     private Article convertToEntity(ArticleRequestDto requestDto) {
         return Article.builder()
                 .quantity(requestDto.getQuantity())
                 .matricule(requestDto.getMatricule())
                 .etat(requestDto.getEtat())
                 .date_sortie(requestDto.getDate_sortie())
-
-
                 .build();
     }
-
     private ArticleResponseDto convertToResponseDto(Article article) {
         return ArticleResponseDto.builder()
                 .id(article.getId())

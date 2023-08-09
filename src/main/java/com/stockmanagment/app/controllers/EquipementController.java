@@ -36,6 +36,12 @@ public class EquipementController {
         return ResponseEntity.ok(responseDTOList);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Long> getTotalEquipments() {
+        long totalEquipments = equipementService.getTotalEquipments();
+        return ResponseEntity.ok(totalEquipments);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<EquipementResponseDto> updateEquipement(
             @PathVariable Long id, @RequestBody EquipementRequestDto requestDTO) throws ChangeSetPersister.NotFoundException {
