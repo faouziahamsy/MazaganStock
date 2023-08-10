@@ -21,7 +21,9 @@ The Stock Management Application is designed to help manage inventory and stock 
 ## Features
 
 - User authentication and authorization.
-- Adding, updating, and deleting products.
+- Adding, updating, and deleting equipments.
+- Adding, updating, and deleting articles.
+- Adding, updating, and deleting categories.
 - Tracking stock levels and availability.
 - Generating reports and summaries.
 - Interactive dashboard for data visualization.
@@ -30,7 +32,7 @@ The Stock Management Application is designed to help manage inventory and stock 
 
 - Backend: Spring Boot, Spring Security, JWT authentication
 - Frontend: Angular
-- Database: MySQL, PostgreSQL
+- Database: MySQL
 - API Documentation: Swagger (Springdoc)
 - Package Management: Maven (Backend), npm (Frontend)
 
@@ -56,6 +58,7 @@ Frontend: http://localhost:4200
 Navigate to the frontend URL (http://localhost:4200) in your browser.
 Use the provided authentication system to log in.
 Explore and interact with the stock management features.
+
 ## Contributing
 Contributions are welcome! If you find any issues or want to enhance the application, feel free to submit a pull request.
 
