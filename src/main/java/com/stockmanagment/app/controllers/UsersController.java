@@ -20,16 +20,11 @@ import java.util.List;
 public class UsersController {
     @Autowired
     private UsersService usersService;
-
-
     @PostMapping
     public ResponseEntity<UsersResponseDto> createUser(@RequestBody UsersRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         UsersResponseDto responseDto = usersService.createUser(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
-
-
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UsersRequestDto loginRequest) {
         // Perform the login logic here

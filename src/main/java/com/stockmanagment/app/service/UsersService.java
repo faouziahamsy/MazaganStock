@@ -73,8 +73,8 @@ public class UsersService {
     private Users convertToEntity(UsersRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Users users = new Users();
 
-       // users.setNom(requestDto.getNom());
-     //   users.setPrenom(requestDto.getPrenom());
+        // users.setNom(requestDto.getNom());
+        //   users.setPrenom(requestDto.getPrenom());
         users.setMatricule(requestDto.getMatricule());
 
         users.setPassword(requestDto.getPassword());
@@ -90,10 +90,8 @@ public class UsersService {
             throw new ChangeSetPersister.NotFoundException();
         }
         users.setRole(role);
-
         return users;
     }
-
     private UsersResponseDto convertToResponseDto(Users users) {
         UsersResponseDto responseDto = new UsersResponseDto();
         responseDto.setId((users.getId()));
@@ -107,3 +105,5 @@ public class UsersService {
         return responseDto;
     }
 }
+
+
