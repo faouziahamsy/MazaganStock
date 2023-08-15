@@ -30,7 +30,8 @@ public class UsersService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public UsersResponseDto createUser(UsersRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
+    public UsersResponseDto createUser(UsersRequestDto requestDto)
+            throws ChangeSetPersister.NotFoundException {
         Users users = convertToEntity(requestDto);
         Users savedUsers = usersRepository.save(users);
         return convertToResponseDto(savedUsers);
@@ -73,10 +74,10 @@ public class UsersService {
     private Users convertToEntity(UsersRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         Users users = new Users();
 
-        // users.setNom(requestDto.getNom());
-        //   users.setPrenom(requestDto.getPrenom());
+       users.setNom(requestDto.getNom());
+        users.setPrenom(requestDto.getPrenom());
         users.setMatricule(requestDto.getMatricule());
-
+        users.setEmail(requestDto.getEmail());
         users.setPassword(requestDto.getPassword());
 
         Departement departement = departementRepository.findById(requestDto.getDepartementId()).orElse(null);

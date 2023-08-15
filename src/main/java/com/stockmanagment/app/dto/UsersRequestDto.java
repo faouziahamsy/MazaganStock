@@ -8,10 +8,14 @@ import lombok.NoArgsConstructor;
     @AllArgsConstructor
     public class UsersRequestDto {
 
+
+        private String nom;
+        private String prenom;
         private String matricule;
+        private String email;
         private String password;
         private Long departementId;
-        private Long RoleId;
+        private Long roleId;
 
     }
 

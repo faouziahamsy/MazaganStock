@@ -15,16 +15,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UsersController {
     @Autowired
     private UsersService usersService;
+    @CrossOrigin
     @PostMapping
-    public ResponseEntity<UsersResponseDto> createUser(@RequestBody UsersRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
-        UsersResponseDto responseDto = usersService.createUser(requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    public ResponseEntity<UsersResponseDto> createUser(@RequestBody UsersRequestDto requestDto)
+            throws ChangeSetPersister.NotFoundException {
+            UsersResponseDto responseDto = usersService.createUser(requestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UsersRequestDto loginRequest) {
         // Perform the login logic here
