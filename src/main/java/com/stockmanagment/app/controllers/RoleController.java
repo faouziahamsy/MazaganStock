@@ -12,38 +12,38 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/roles")
 public class RoleController {
 
     @Autowired
     private RoleService roleService;
-
+@CrossOrigin
     @PostMapping
     public ResponseEntity<RoleResponseDto> createRole(@RequestBody RoleRequestDto requestDto) {
         RoleResponseDto responseDto = roleService.createRole(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
-
+@CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<RoleResponseDto> getRoleById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         RoleResponseDto responseDto = roleService.getRoleById(id);
         return ResponseEntity.ok(responseDto);
     }
-
+@CrossOrigin
     @GetMapping
     public ResponseEntity<List<RoleResponseDto>> getAllRoles() {
         List<RoleResponseDto> responseDtoList = roleService.getAllRoles();
         return ResponseEntity.ok(responseDtoList);
     }
-
+@CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<RoleResponseDto> updateRole(@PathVariable Long id, @RequestBody RoleRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
         RoleResponseDto responseDto = roleService.updateRole(id, requestDto);
         return ResponseEntity.ok(responseDto);
     }
-
+@CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRole(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         roleService.deleteRole(id);

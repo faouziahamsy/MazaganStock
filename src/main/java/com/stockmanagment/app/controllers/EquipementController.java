@@ -35,7 +35,7 @@ public class EquipementController {
         List<EquipementResponseDto> responseDTOList = equipementService.findAllEquipements();
         return ResponseEntity.ok(responseDTOList);
     }
-
+    @CrossOrigin
     @GetMapping("/all")
     public ResponseEntity<Long> getTotalEquipments() {
         long totalEquipments = equipementService.getTotalEquipments();

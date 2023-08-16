@@ -43,4 +43,12 @@ public class ArticleController {
         articleService.deleteArticle(id);
         return ResponseEntity.noContent().build();
     }
+
+    @CrossOrigin
+    @GetMapping("/all")
+    public ResponseEntity<Long> getTotalArticles() {
+        long totalArticles = articleService.getTotalArticles();
+        return ResponseEntity.ok(totalArticles);
+    }
+
 }

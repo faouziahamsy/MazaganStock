@@ -49,4 +49,8 @@ public class CategoryService {
             return false;
         }
     }
+
+    public long getTotalCategories() {
+        return categoryRepository.count();
+    }
 }

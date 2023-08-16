@@ -68,4 +68,10 @@ public class CategoryController {
             return ResponseEntity.notFound().build();
         }
     }
+    @CrossOrigin
+    @GetMapping("/all")
+    public ResponseEntity<Long> getTotalCategories() {
+        long totalCategories = categoryService.getTotalCategories();
+        return ResponseEntity.ok(totalCategories);
+    }
 }

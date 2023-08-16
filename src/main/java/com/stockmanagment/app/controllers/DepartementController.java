@@ -9,20 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/departements")
 public class DepartementController {
 
     @Autowired
     private DepartementService departementService;
-
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<DepartementResponseDto> createDepartement(@RequestBody DepartementRequestDto requestDto) {
         DepartementResponseDto responseDto = departementService.createDepartement(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
-
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<DepartementResponseDto> updateDepartement(
             @PathVariable Long id, @RequestBody DepartementRequestDto requestDto) {
@@ -35,13 +35,13 @@ public class DepartementController {
         departementService.deleteDepartement(id);
         return ResponseEntity.noContent().build();
     }
-
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<DepartementResponseDto> getDepartementById(@PathVariable Long id) {
         DepartementResponseDto responseDto = departementService.getDepartementById(id);
         return ResponseEntity.ok(responseDto);
     }
-
+        @CrossOrigin
     @GetMapping
     public ResponseEntity<List<DepartementResponseDto>> getAllDepartements() {
         List<DepartementResponseDto> responseDtoList = departementService.getAllDepartements();

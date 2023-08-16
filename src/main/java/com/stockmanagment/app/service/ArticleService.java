@@ -72,4 +72,7 @@ public class ArticleService {
                 .build();
     }
 
+    public long getTotalArticles() {
+        return articleRepository.count();
+    }
 }
