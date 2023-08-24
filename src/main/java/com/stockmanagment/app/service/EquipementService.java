@@ -86,7 +86,8 @@ public class EquipementService {
         return equipements.stream().map(this::convertToResponseDTO).collect(Collectors.toList());
     }
 
-    public EquipementResponseDto updateEquipement(Long id, EquipementRequestDto requestDTO) throws ChangeSetPersister.NotFoundException {
+    public EquipementResponseDto updateEquipement(Long id, EquipementRequestDto requestDTO)
+            throws ChangeSetPersister.NotFoundException {
         Equipement existingEquipement = equipementRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
 

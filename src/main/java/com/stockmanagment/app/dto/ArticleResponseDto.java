@@ -20,5 +20,5 @@ public class ArticleResponseDto {
     private String matricule;
     private Instant date_entree;
     private Instant date_sortie;
-    private List<Long> equipementIds;
+  //  private List<Long> equipementIds;
 }

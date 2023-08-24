@@ -1,5 +1,7 @@
 package com.stockmanagment.app.controllers;
 
+import com.stockmanagment.app.dto.ArticleRequestDto;
+import com.stockmanagment.app.dto.ArticleResponseDto;
 import com.stockmanagment.app.dto.CategoryRequestDto;
 import com.stockmanagment.app.dto.CategoryResponseDto;
 import com.stockmanagment.app.model.Category;
@@ -36,21 +38,10 @@ public class CategoryController {
     }
     @CrossOrigin
     @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public CategoryResponseDto createCategory(@RequestBody CategoryRequestDto category) {
-        //recup data for request (client)
-        String nom= category.getNom();
-        //creer objet category
-        Category cat = new Category();
-        //recup cat (name)
-        cat.setNom(nom);
-        //creer objet dto
-        CategoryResponseDto res = new CategoryResponseDto();
-        //name to objet dto
-        res.setNom(categoryService.createCategory(cat).getNom());
-        System.out.println("------------------------>"+category);
-        return res;
 
+    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryRequestDto requestDto) {
+        CategoryResponseDto responseDto = categoryService.createCategory(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
     @CrossOrigin
     @PutMapping("/{id}")
@@ -74,4 +65,5 @@ public class CategoryController {
         long totalCategories = categoryService.getTotalCategories();
         return ResponseEntity.ok(totalCategories);
     }
+
 }

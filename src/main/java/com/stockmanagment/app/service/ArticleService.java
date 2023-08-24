@@ -37,9 +37,11 @@ public class ArticleService {
                 .collect(Collectors.toList());
     }
 
-    public ArticleResponseDto updateArticle(Long id, ArticleRequestDto requestDto) throws ChangeSetPersister.NotFoundException {
+    public ArticleResponseDto updateArticle(Long id, ArticleRequestDto requestDto)
+            throws ChangeSetPersister.NotFoundException {
         Article existingArticle = articleRepository.findById(id)
                 .orElseThrow(() -> new ChangeSetPersister.NotFoundException());
+
         existingArticle.setQuantity(requestDto.getQuantity());
         existingArticle.setMatricule(requestDto.getMatricule());
         existingArticle.setDate_sortie(Instant.now());
@@ -54,22 +56,21 @@ public class ArticleService {
         articleRepository.delete(article);
     }
     private Article convertToEntity(ArticleRequestDto requestDto) {
-        return Article.builder()
-                .quantity(requestDto.getQuantity())
-                .matricule(requestDto.getMatricule())
-                .etat(requestDto.getEtat())
-                .date_sortie(requestDto.getDate_sortie())
-                .build();
+        Article article = new Article();
+        article.setQuantity(requestDto.getQuantity());
+        article.setMatricule(requestDto.getMatricule());
+        article.setEtat(requestDto.getEtat());
+        return article;
     }
     private ArticleResponseDto convertToResponseDto(Article article) {
-        return ArticleResponseDto.builder()
-                .id(article.getId())
-                .quantity(article.getQuantity())
-                .matricule(article.getMatricule())
-                .date_entree(article.getDate_entree())
-                .date_sortie(article.getDate_sortie())
-                .etat(article.getEtat())
-                .build();
+        ArticleResponseDto responseDto = new ArticleResponseDto();
+        responseDto.setId(article.getId());
+        responseDto.setQuantity(article.getQuantity());
+        responseDto.setMatricule(article.getMatricule());
+        responseDto.setEtat(article.getEtat());
+        responseDto.setDate_entree(article.getDate_entree());
+        responseDto.setDate_sortie(article.getDate_sortie());
+        return responseDto;
     }
 
     public long getTotalArticles() {

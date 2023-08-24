@@ -11,13 +11,12 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 
 public class ArticleRequestDto {
-
         private Long quantity;
         private String matricule;
         private EtatEquipement etat;
-
         private Instant date_sortie;
 
 
